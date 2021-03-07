@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Utils
 {
+    // Simple object pooler
     public class ObjectPooler : MonoBehaviour
     {
         public static ObjectPooler Instance;

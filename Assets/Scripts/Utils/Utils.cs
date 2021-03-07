@@ -9,6 +9,7 @@ namespace Utils
             return cam.ScreenToWorldPoint(Screen.safeArea.size);
         }
         
+        // Deep cloning hack
         public static T Clone<T>(T source)
         {
             var serialized = JsonUtility.ToJson(source);

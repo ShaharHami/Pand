@@ -58,12 +58,13 @@ namespace Audio
             }
 
         }
-
+        // Assign the audio source by the type
         private void PlayAudioItem(AudioItem item)
         {
             switch (item.type)
             {
                 case AudioType.BGM:
+                    // For BGM we want to attach it to the source and play it
                     if (!bgmAudioSource.isPlaying)
                     {
                         bgmAudioSource.clip = item.clip;

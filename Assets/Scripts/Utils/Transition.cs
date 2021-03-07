@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Utils
 {
+    // Creates a transition (for moving between scenes or levels)
     public class Transition : MonoBehaviour
     {
         [SerializeField] private RectTransform panel;

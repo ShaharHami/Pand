@@ -17,7 +17,7 @@ MonoBehaviour:
     type: 3}
   playerInvincibilityColor: {r: 1, g: 0.99609435, b: 0.7688679, a: 0.27058825}
   playerLives: 6
-  playerSpawnPosition: {x: 0.5, y: -4.22}
+  playerSpawnPosition: {x: 3, y: -1}
   playerInvincibilityDuration: 3
   horizontalAxisName: P2Horizontal
   fireButtonName: P2Fire
@@ -28,4 +28,4 @@ MonoBehaviour:
     type: 3}
   maxProjectilesAllowed: 1
   weaponColor: {r: 1, g: 0.3726415, b: 0.9704774, a: 1}
-  projectileSpeed: 50
+  projectileSpeed: 35

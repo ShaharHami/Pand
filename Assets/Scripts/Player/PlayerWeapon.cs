@@ -41,6 +41,7 @@ namespace Player
             if (playerController == _playerController)
             {
                 activeProjectiles--;
+                // This was put in place to handle edge cases
                 if (activeProjectiles < 0)
                 {
                     activeProjectiles = 0;
@@ -50,6 +51,7 @@ namespace Player
         
         public void FireWeapon()
         {
+            // Check if there are less projectiles fired than are allowed at the same time
             if (activeProjectiles < maxProjectilesAllowed)
             {
                 activeProjectiles++;

@@ -20,6 +20,8 @@ namespace Game
         private GameData gameData;
         private GlobalState globalState;
         private LocalState localState;
+        private int highestScore;
+        private string selectedPlayer;
 
         private void Awake()
         {
@@ -58,11 +60,6 @@ namespace Game
             PlayerController.OnPlayerDead -= HandlePlayerDead;
         }
 
-        private void TogglePauseGame()
-        {
-            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
-        }
-        
         private void HandleLevelClear()
         {
             if (localState.level >= gameData.levels.Count-1)
@@ -111,8 +108,9 @@ namespace Game
         
         private string SelectPlayerWhoWon()
         {
-            int highestScore = 0;
-            string selectedPlayer = String.Empty;
+            // Determine which player has the higher score
+            highestScore = 0;
+            selectedPlayer = String.Empty;
             foreach (var player in localState.playerControllers.Where(player => player.Score > highestScore))
             {
                 highestScore = player.Score;

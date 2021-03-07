@@ -35,12 +35,15 @@ namespace Player
         public bool PlayerDead { get; private set; }
         public int Score => playerScore.Score;
 
+        // Initialize player components
         public void Init(PlayerData playerData)
         {
+            // Player uses a world space canvas
             playerCanvas.worldCamera = Camera.main;
             playerRb = GetComponent<Rigidbody2D>();
             PlayerName = playerData.playerName;
             playerInvincibilityDuration = playerData.playerInvincibilityDuration;
+            // Check if we are on mobile or desktop and use the correct input component
             if (SystemInfo.deviceType == DeviceType.Handheld)
             {
                 playerInput = new PlayerTouchInput();
@@ -61,22 +64,26 @@ namespace Player
             _playerPowerUps.Init(playerWeapon, playerUi, playerHealth);
             playerUi.SetLives(playerData.playerLives);
             playerUi.SetScore(0);
+            // Register for projectile events
             Projectile.Projectile.onProjectileDestroyed += OnProjectileDestroyed;
         }
 
-        private void OnProjectileDestroyed(int obj, PlayerController player)
+        private void OnProjectileDestroyed(int score, PlayerController player)
         {
             if (player == this)
             { 
-                playerScore.ChangeScore(obj);
+                playerScore.ChangeScore(score);
                 playerUi.SetScore(playerScore.Score);
             }
         }
 
         private void FixedUpdate()
         {
+            // Check if the player is dead or the game ended
             if (PlayerDead || LocalState.Instance.gameOver) return;
+            // Move the player
             playerMotion.MovePlayerHorizontally(playerInput.GetAxis());
+            // Make sure the player faces the right direction
             if (Math.Abs(playerInput.GetAxis()) > 0.001f)
             {
                 playerGraphic.FlipPlayer(playerInput.GetAxis() > 0);
@@ -85,7 +92,9 @@ namespace Player
 
         private void Update()
         {
+            // Check if the player is dead or the game ended
             if (PlayerDead || LocalState.Instance.gameOver) return;
+            // Implement a cooldown to avoid spamming the fire button
             if (!coolDown && playerInput.GetButton())
             {
                 coolDown = true;
@@ -101,6 +110,7 @@ namespace Player
         
         private void OnTriggerEnter2D(Collider2D other)
         {
+            // Check if we hit an enemy/obstacle
             if (other.gameObject.CompareTag(Constants.BALL_TAG) && !invincible)
             {
                 if (playerHealth.Lives > 0)
@@ -113,6 +123,7 @@ namespace Player
                     }
                     else
                     {
+                        // IFrames make sure you can't get hit immediately after we got hit 
                         StartCoroutine(InvincibilityFrames());
                     }
                 }
@@ -120,6 +131,7 @@ namespace Player
             }
             else if (other.gameObject.CompareTag(Constants.POWERUP_TAG))
             {
+                // Handle collecting a powerup
                 powerUp = other.GetComponent<PowerUp.PowerUp>();
                 _playerPowerUps.DoPowerUp(powerUp.PowerUpData.type, powerUp.PowerUpData.duration);
                 other.gameObject.SetActive(false);
@@ -131,6 +143,7 @@ namespace Player
         {
             PlayerDead = true;
             playerUi.SetPlayerDead();
+            // Raise an event saying the player died
             OnPlayerDead?.Invoke(this);
             AudioController.Instance.PlayAudio(Constants.DEATH);
             Invoke(nameof(HidePlayer), playerInvincibilityDuration); 

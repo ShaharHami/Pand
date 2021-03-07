@@ -35,6 +35,7 @@ namespace PowerUp
         {
             if (other.CompareTag(Constants.FLOOR_TAG))
             {
+                // Stop the power up when it hits the floor
                 rb.velocity = Vector2.zero;
                 rb.isKinematic = true;
             }

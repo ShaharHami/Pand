@@ -38,8 +38,6 @@ namespace Utils
                 case Placement.RIGHT:
                     pos.x = bounds.x + transform.localScale.x / 2;
                     break;
-                default:
-                    break;
             }
 
             transform.position = pos;

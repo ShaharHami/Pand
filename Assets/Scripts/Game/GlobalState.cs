@@ -8,7 +8,6 @@ namespace Game
     {
         public static GlobalState Instance;
         public GameData gameData;
-        // public int level { get; set; }
         public int players { get; set; }
         public bool gameStarted;
 
@@ -25,7 +24,6 @@ namespace Game
             }
 
             players = 1;
-            // level = 0;
             gameStarted = false;
         }
     }

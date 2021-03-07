@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace UI
 {
+    // Basic popup window
     public class Modal : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI conclusionText, mainText;
