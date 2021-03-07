@@ -31,5 +31,6 @@ namespace Data
         public int maxProjectilesAllowed;
         public Color weaponColor;
         public float projectileSpeed;
+        public float delay;
     }
 }

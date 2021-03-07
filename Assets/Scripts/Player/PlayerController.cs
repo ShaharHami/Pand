@@ -57,7 +57,7 @@ namespace Player
             playerScore = new PlayerScore();
             playerUi = new PlayerUI(livesText, scoreText, permaShotIndicator, doubleShotIndicator);
             playerWeapon = new PlayerWeapon(playerData.projectilePrefab, playerData.weaponColor,
-                playerData.maxProjectilesAllowed, playerData.projectileSpeed, firingPoint, this);
+                playerData.maxProjectilesAllowed, playerData.projectileSpeed, playerData.delay, firingPoint, this);
             playerMotion = new PlayerMotion(playerData.playerSpeed, playerData.moveThreshold, playerData.maxVelocity,
                 playerRb);
             _playerPowerUps = gameObject.AddComponent<PlayerPowerUps>();

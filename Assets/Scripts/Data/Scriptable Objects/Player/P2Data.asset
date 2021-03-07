@@ -29,3 +29,4 @@ MonoBehaviour:
   maxProjectilesAllowed: 1
   weaponColor: {r: 1, g: 0.3726415, b: 0.9704774, a: 1}
   projectileSpeed: 35
+  delay: 2

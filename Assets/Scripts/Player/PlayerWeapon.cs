@@ -13,6 +13,7 @@ namespace Player
         private readonly Color _projectileColor;
         private readonly float _projectileSpeed;
         private readonly Transform _firingPoint;
+        private readonly float _delay;
         private int activeProjectiles;
 
         private int maxProjectilesAllowed;
@@ -22,13 +23,14 @@ namespace Player
         private Projectile.Projectile projectileController;
         private Vector2 pos;
 
-        public PlayerWeapon(GameObject projectile, Color projectileColor, int maxProjectiles, float projectileSpeed, Transform firingPoint,
+        public PlayerWeapon(GameObject projectile, Color projectileColor, int maxProjectiles, float projectileSpeed, float delay, Transform firingPoint,
             PlayerController playerController)
         {
             _floorY = -Utils.Utils.ScreenBounds(Camera.main).y;
             _projectilePrefab = projectile;
             _projectileColor = projectileColor;
             _projectileSpeed = projectileSpeed;
+            _delay = delay;
             projectileType = ProjectileType.DEFAULT;
             _firingPoint = firingPoint;
             _playerController = playerController;
@@ -60,7 +62,7 @@ namespace Player
                 projectile = ObjectPooler.Instance.SpawnFromPool(_projectilePrefab);
                 projectile.transform.position = pos;
                 projectileController = projectile.GetComponent<Projectile.Projectile>();
-                projectileController.Init(_projectileColor, _projectileSpeed, projectileType, _playerController);
+                projectileController.Init(_projectileColor, _projectileSpeed, projectileType, _delay, _playerController);
                 AudioController.Instance.PlayAudio(Constants.SHOT);
             }
         }
