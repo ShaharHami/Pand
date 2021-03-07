@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a248cc7131401d9bf4b3640aeca6eb, type: 3}
+  m_Name: P2Data
+  m_EditorClassIdentifier: 
+  playerName: P2
+  playerPrefab: {fileID: 3411952252823365806, guid: 307add078c05dae478364c26f0cb0eb1,
+    type: 3}
+  playerInvincibilityColor: {r: 1, g: 0.99609435, b: 0.7688679, a: 0.27058825}
+  playerLives: 6
+  playerSpawnPosition: {x: 0.5, y: -4.22}
+  playerInvincibilityDuration: 3
+  horizontalAxisName: P2Horizontal
+  fireButtonName: P2Fire
+  playerSpeed: 10
+  moveThreshold: 0.01
+  maxVelocity: 20
+  projectilePrefab: {fileID: 8122232804854860522, guid: 8f638be2ba3d6d94eb3c74b963f76973,
+    type: 3}
+  maxProjectilesAllowed: 1
+  weaponColor: {r: 1, g: 0.3726415, b: 0.9704774, a: 1}
+  projectileSpeed: 50

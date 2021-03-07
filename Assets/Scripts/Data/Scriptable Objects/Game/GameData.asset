@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42fd0ca583d04aeaab0205e88148aec1, type: 3}
+  m_Name: GameData
+  m_EditorClassIdentifier: 
+  levels:
+  - {fileID: 11400000, guid: 39d39934155fffd41b6d106c026113d9, type: 2}
+  - {fileID: 11400000, guid: 37c41a6f9a5bd71428376e974fe87adf, type: 2}
+  - {fileID: 11400000, guid: fabd26543c1828a4490e76a10ac484f0, type: 2}
+  levelLoadDelay: 4
+  players:
+  - {fileID: 11400000, guid: de032533f7bc09e4e814822b66a9ecfc, type: 2}
+  - {fileID: 11400000, guid: e1fd721e3280f4d40b0843516d91206e, type: 2}
+  powerUps:
+  - {fileID: 11400000, guid: 41d4a666277db3b4786b75ba4b182842, type: 2}
+  - {fileID: 11400000, guid: e81f47a1c001fbc48890ffcc4cb5253f, type: 2}
+  - {fileID: 11400000, guid: e206bc7540856d54a8ac7409ce7c689b, type: 2}
+  textAndUi: {fileID: 11400000, guid: 815bad6c49c9638428d86552c864dce9, type: 2}
+  screenPadding: 5
