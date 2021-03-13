@@ -6,17 +6,6 @@ namespace App
     {
         private App _app;
 
-        protected App App
-        {
-            get
-            {
-                if (_app == null)
-                {
-                    _app = new App();
-                }
-
-                return _app;
-            }
-        }
+        protected App App => _app ?? (_app = new App());
     }
 }
