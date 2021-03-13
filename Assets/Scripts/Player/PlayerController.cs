@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
+using App;
 using Audio;
 using Data;
-using Game;
 using Player.Interfaces;
 using TMPro;
 using UnityEngine;
@@ -10,7 +10,7 @@ using Utils;
 
 namespace Player
 {
-    public class PlayerController : GlobalAccessMonoBehaviour
+    public class PlayerController : AppMonoBehaviour
     {
         [SerializeField] private SpriteRenderer renderer;
         [SerializeField] private Canvas playerCanvas;
@@ -34,11 +34,6 @@ namespace Player
         public string PlayerName { get; private set; }
         public bool PlayerDead { get; private set; }
         public int Score => playerScore.Score;
-
-        private void Awake()
-        {
-            InitializeReferences();
-        }
 
         // Initialize player components
         public void Init(PlayerData playerData, Camera cam)
@@ -85,7 +80,7 @@ namespace Player
         private void FixedUpdate()
         {
             // Check if the player is dead or the game ended
-            if (PlayerDead || localState.gameOver) return;
+            if (PlayerDead || App.localState.gameOver) return;
             // Move the player
             playerMotion.MovePlayerHorizontally(playerInput.GetAxis());
             // Make sure the player faces the right direction
@@ -98,7 +93,7 @@ namespace Player
         private void Update()
         {
             // Check if the player is dead or the game ended
-            if (PlayerDead || localState.gameOver) return;
+            if (PlayerDead || App.localState.gameOver) return;
             // Implement a cooldown to avoid spamming the fire button
             if (!coolDown && playerInput.GetButton())
             {
@@ -122,7 +117,7 @@ namespace Player
                 {
                     playerHealth.LoseLife();
                     playerUi.SetLives(playerHealth.Lives);
-                    audioController.PlayAudio(Constants.HIT);
+                    App.audioController.PlayAudio(Constants.HIT);
                     if (playerHealth.Lives <= 0)
                     {
                         HandlePlayerDeath();
@@ -140,7 +135,7 @@ namespace Player
                 powerUp = other.GetComponent<PowerUp.PowerUp>();
                 _playerPowerUps.DoPowerUp(powerUp.PowerUpData.type, powerUp.PowerUpData.duration);
                 other.gameObject.SetActive(false);
-                audioController.PlayAudio(Constants.POWER_UP_SOUND);
+                App.audioController.PlayAudio(Constants.POWER_UP_SOUND);
             }
         }
 
@@ -150,7 +145,7 @@ namespace Player
             playerUi.SetPlayerDead();
             // Raise an event saying the player died
             OnPlayerDead?.Invoke(this);
-            audioController.PlayAudio(Constants.DEATH);
+            App.audioController.PlayAudio(Constants.DEATH);
             Invoke(nameof(HidePlayer), playerInvincibilityDuration); 
         }
 

@@ -3,7 +3,7 @@ using Player;
 using UI;
 using UnityEngine;
 
-namespace Game
+namespace App
 {
     // Easy access to non persistent, current scene data
     public class LocalState : MonoBehaviour

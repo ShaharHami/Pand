@@ -1,13 +1,12 @@
 ﻿using System;
 using Data;
-using Game;
 using TMPro;
 using UnityEngine;
 using Utils;
 
 namespace Player
 {
-    public class PlayerUI : GlobalAccess
+    public class PlayerUI : App.App
     {
         private readonly TextAndUIData _data;
         private readonly TextMeshProUGUI _livesText;

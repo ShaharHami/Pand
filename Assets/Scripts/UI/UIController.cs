@@ -1,22 +1,16 @@
 ﻿using System;
-using Game;
 using TMPro;
 using UnityEngine;
 using Utils;
 
 namespace UI
 {
-    public class UIController : GlobalAccessMonoBehaviour
+    public class UIController : MonoBehaviour
     {
         [SerializeField] private GameObject mobileControls;
         [SerializeField] private Transition transition;
         [SerializeField] private Modal modal;
         [SerializeField] private TextMeshProUGUI centralMessageText;
-
-        private void Awake()
-        {
-            InitializeReferences();
-        }
 
         private void Start()
         {

@@ -10,9 +10,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Utils;
 
-namespace Game
+namespace App
 {
-    public class GameManager : GlobalAccessMonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         [SerializeField] private Image backgroundImage;
         private UIController uiController;
@@ -25,7 +25,6 @@ namespace Game
 
         private void Awake()
         {
-            InitializeReferences();
             if (SystemInfo.deviceType == DeviceType.Handheld)
             {
                 Application.targetFrameRate = 60;
@@ -51,13 +50,13 @@ namespace Game
 
         private void OnEnable()
         {
-            Ball.Ball.NoMoreBallsEvent += HandleLevelClear;
+            Ball.Ball.OnNoMoreBalls += HandleLevelClear;
             PlayerController.OnPlayerDead += HandlePlayerDead;
         }
 
         private void OnDisable()
         {
-            Ball.Ball.NoMoreBallsEvent -= HandleLevelClear;
+            Ball.Ball.OnNoMoreBalls -= HandleLevelClear;
             PlayerController.OnPlayerDead -= HandlePlayerDead;
         }
 

@@ -1,7 +1,7 @@
 ﻿using Data;
 using UnityEngine;
 
-namespace Game
+namespace App
 {
     // Meant for storing session persistent data 
     public class GlobalState : MonoBehaviour

@@ -1,21 +1,16 @@
 ﻿using System;
+using App;
 using Audio;
-using Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
 
 namespace Menu
 {
-    public class MenuController : GlobalAccessMonoBehaviour
+    public class MenuController : AppMonoBehaviour
     {
         [SerializeField] private int gameScene;
         [SerializeField] private GameObject desktopUI, mobileUI;
-
-        private void Awake()
-        {
-            InitializeReferences();
-        }
 
         private void Start()
         {
@@ -29,30 +24,30 @@ namespace Menu
                 mobileUI.SetActive(false);
                 desktopUI.SetActive(true);
             }
-            localState.level = 0;
-            if (globalState.gameStarted)
+            App.localState.level = 0;
+            if (App.globalState.gameStarted)
             {
-                localState.UiController.Transition(false, 0.5f);
+                App.localState.UiController.Transition(false, 0.5f);
             }
-            globalState.gameStarted = true;
-            audioController.PlayAudio(Constants.BGM);
+            App.globalState.gameStarted = true;
+            App.audioController.PlayAudio(Constants.BGM);
         }
 
         private void LoadGame()
         {
-            localState.UiController.Transition(true, 0.5f, () => SceneManager.LoadScene(gameScene));
+            App.localState.UiController.Transition(true, 0.5f, () => SceneManager.LoadScene(gameScene));
         }
 
         public void ChangePlayers(int players)
         {
-            audioController.PlayAudio(Constants.BUTTON_SOUND);
-            globalState.players = players;
+            App.audioController.PlayAudio(Constants.BUTTON_SOUND);
+            App.globalState.players = players;
             LoadGame();
         }
 
         public void QuitGame()
         {
-            audioController.PlayAudio(Constants.BUTTON_SOUND);
+            App.audioController.PlayAudio(Constants.BUTTON_SOUND);
             Application.Quit();
         }
         

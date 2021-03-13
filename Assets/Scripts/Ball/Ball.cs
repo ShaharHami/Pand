@@ -1,4 +1,5 @@
 ﻿using System;
+using App;
 using Audio;
 using UnityEngine;
 using Utils;
@@ -6,12 +7,12 @@ using Random = UnityEngine.Random;
 
 namespace Ball
 {
-    public class Ball : GlobalAccessMonoBehaviour
+    public class Ball : AppMonoBehaviour
     {
         // Keep a static counter to know when there are no more balls on screen e.g. level finished
         public static int ballsOnScreen;
         
-        public static Action NoMoreBallsEvent;
+        public static Action OnNoMoreBalls;
         public static Action<Vector2> HitBallEvent;
         private BallDataContainer dataContainer, dataContainerClone;
         private Rigidbody2D ballRb;
@@ -25,7 +26,6 @@ namespace Ball
 
         private void Awake()
         {
-            InitializeReferences();
             // Get a reference to the ball rigidbody
             ballRb = GetComponent<Rigidbody2D>();
         }
@@ -84,7 +84,7 @@ namespace Ball
                 case Constants.PROJECTILE_TAG:
                     // If we hit a projectile from the player we raise an event and handle splitting the ball
                     HitBallEvent?.Invoke(transform.position);
-                    audioController.PlayAudio(Constants.POP);
+                    App.audioController.PlayAudio(Constants.POP);
                     SplitBall();
                     return;
             }
@@ -111,7 +111,7 @@ namespace Ball
                     // Set new ball direction in the cloned data to achieve the effect where each ball goes off in the opposite direction
                     dataContainerClone.goingRight = i % 2 == 0;
                     // Spawn new ball
-                    newBall = objectPooler.SpawnFromPool(dataContainer.ballPrefab.name); 
+                    newBall = App.objectPooler.SpawnFromPool(dataContainer.ballPrefab.name); 
                     // Position new ball
                     newBall.transform.position = transform.position;
                     // Get new ball component
@@ -125,7 +125,7 @@ namespace Ball
             // If no more balls are left invoke an event
             if (ballsOnScreen <= 0)
             {
-                NoMoreBallsEvent?.Invoke();
+                OnNoMoreBalls?.Invoke();
             }
         }
     }

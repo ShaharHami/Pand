@@ -4,12 +4,11 @@ using Player;
 using PowerUp;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 using Random = UnityEngine.Random;
 
-namespace Game
+namespace App
 {
-    public class LevelInitializer : GlobalAccess
+    public class LevelInitializer : App
     {
         private PlayerController playerController;
         private Image _backgroundImage;

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using Data;
 using UnityEngine;
-using Utils;
 
 namespace PowerUp
 {
-    public class PowerUpsSpawner : GlobalAccess
+    public class PowerUpsSpawner : App.App
     {
         private static List<PowerUpData> _powerUps;
         private PowerUpData powerUpData;
