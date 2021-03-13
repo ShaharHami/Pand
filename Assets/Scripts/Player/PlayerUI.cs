@@ -3,10 +3,11 @@ using Data;
 using Game;
 using TMPro;
 using UnityEngine;
+using Utils;
 
 namespace Player
 {
-    public class PlayerUI
+    public class PlayerUI : GlobalAccess
     {
         private readonly TextAndUIData _data;
         private readonly TextMeshProUGUI _livesText;
@@ -21,7 +22,7 @@ namespace Player
             _scoreText = scoreText;
             SetDoubleShot(false);
             SetPermaShot(false);
-            _data = GlobalState.Instance.gameData.textAndUi;
+            _data = globalState.gameData.textAndUi;
         }
 
         public void SetPlayerDead()

@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Ball
 {
-    public class Ball : MonoBehaviour
+    public class Ball : GlobalAccessMonoBehaviour
     {
         // Keep a static counter to know when there are no more balls on screen e.g. level finished
         public static int ballsOnScreen;
@@ -21,9 +21,11 @@ namespace Ball
         private Vector2 torqueRange;
         private GameObject newBall;
         private Ball newBallComponent;
+        private Vector2 dir;
 
         private void Awake()
         {
+            InitializeReferences();
             // Get a reference to the ball rigidbody
             ballRb = GetComponent<Rigidbody2D>();
         }
@@ -45,7 +47,7 @@ namespace Ball
             // Cache data container
             dataContainer = ballDataContainer;
             // Set ball direction and horizontal velocity
-            var dir = dataContainer.goingRight ? Vector2.right : Vector2.left;
+            dir = dataContainer.goingRight ? Vector2.right : Vector2.left;
             ballRb.velocity = dir * dataContainer.horizontalSpeed;
             // Set ball size by it's level
             transform.localScale = Vector2.one * (dataContainer.level * dataContainer.sizeMultiplier);
@@ -82,7 +84,7 @@ namespace Ball
                 case Constants.PROJECTILE_TAG:
                     // If we hit a projectile from the player we raise an event and handle splitting the ball
                     HitBallEvent?.Invoke(transform.position);
-                    AudioController.Instance.PlayAudio(Constants.POP);
+                    audioController.PlayAudio(Constants.POP);
                     SplitBall();
                     return;
             }
@@ -109,7 +111,7 @@ namespace Ball
                     // Set new ball direction in the cloned data to achieve the effect where each ball goes off in the opposite direction
                     dataContainerClone.goingRight = i % 2 == 0;
                     // Spawn new ball
-                    newBall = ObjectPooler.Instance.SpawnFromPool(dataContainer.ballPrefab); 
+                    newBall = objectPooler.SpawnFromPool(dataContainer.ballPrefab.name); 
                     // Position new ball
                     newBall.transform.position = transform.position;
                     // Get new ball component

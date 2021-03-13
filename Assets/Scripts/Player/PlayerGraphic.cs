@@ -36,7 +36,10 @@ namespace Player
             cachedScale = _playerScale;
             scaleX = cachedScale.x;
             cachedScale.x = right ? scaleX * -1 : scaleX * 1;
-            _renderer.transform.localScale = cachedScale;
+            if ((Vector2)_renderer.transform.localScale != cachedScale)
+            {
+                _renderer.transform.localScale = cachedScale;
+            }
         }
     }
 }

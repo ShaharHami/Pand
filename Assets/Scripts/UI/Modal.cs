@@ -2,21 +2,27 @@
 using Game;
 using TMPro;
 using UnityEngine;
+using Utils;
 
 namespace UI
 {
     // Basic popup window
-    public class Modal : MonoBehaviour
+    public class Modal : GlobalAccessMonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI conclusionText, mainText;
         private string win;
-        
+
+        private void Awake()
+        {
+            InitializeReferences();
+        }
+
         private void Start()
         {
             gameObject.SetActive(false);
             conclusionText.gameObject.SetActive(true);
-            mainText.text = GlobalState.Instance.gameData.textAndUi.gameOver;
-            win = GlobalState.Instance.gameData.textAndUi.win;
+            mainText.text = globalState.gameData.textAndUi.gameOver;
+            win = globalState.gameData.textAndUi.win;
         }
 
         public void HideConclusionText()

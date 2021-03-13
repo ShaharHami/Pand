@@ -10,7 +10,20 @@ namespace Game
     {
         public static LocalState Instance;
         [HideInInspector] public List<PlayerController> playerControllers = new List<PlayerController>();
-        public UIController uiController { get; set; }
+        private UIController uiController;
+        public UIController UiController
+        {
+            get
+            {
+                if (uiController == null)
+                {
+                    uiController = FindObjectOfType<UIController>();
+                }
+
+                return uiController;
+            }
+        }
+
         public bool gameOver { get; set; }
         public int level { get; set; }
 

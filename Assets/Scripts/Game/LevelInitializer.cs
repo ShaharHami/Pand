@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace Game
 {
-    public class InitManager
+    public class LevelInitializer : GlobalAccess
     {
         private PlayerController playerController;
         private Image _backgroundImage;
@@ -21,10 +21,10 @@ namespace Game
         private Ball.Ball ball;
         private PowerUpsSpawner powerUpsSpawner;
 
-        public InitManager(Image backgroundImage)
+        public LevelInitializer(Image backgroundImage)
         {
             cam = Camera.main;
-            gameData = GlobalState.Instance.gameData;
+            gameData = globalState.gameData;
             _backgroundImage = backgroundImage;
             screenPadding = new Vector2(gameData.screenPadding, gameData.screenPadding);
         }
@@ -38,7 +38,7 @@ namespace Game
             }
             else // else initialize as many players as are specified in the global state - if the exist in the data
             {
-                for (int i = 0; i < GlobalState.Instance.players; i++)
+                for (int i = 0; i < globalState.players; i++)
                 {
                     if (gameData.players[i] != null)
                     {
@@ -54,13 +54,13 @@ namespace Game
                 .Instantiate(player.playerPrefab, player.playerSpawnPosition, Quaternion.identity)
                 .GetComponent<PlayerController>();
             // Initialize the player controller 
-            playerController.Init(player);
-            LocalState.Instance.playerControllers.Add(playerController);
+            playerController.Init(player, cam);
+            localState.playerControllers.Add(playerController);
         }
 
         public void InitializeLevelGraphic()
         {
-            _backgroundImage.sprite = gameData.levels[LocalState.Instance.level].background;
+            _backgroundImage.sprite = gameData.levels[localState.level].background;
         }
         
         public void InitializeBalls()
@@ -69,14 +69,14 @@ namespace Game
             // Get a random spawn point withing the screen bounds
             // Use padding to steer clear of the edges
             spawnArea = Utils.Utils.ScreenBounds(cam) - screenPadding;
-            foreach (var ballData in gameData.levels[LocalState.Instance.level].balls)
+            foreach (var ballData in gameData.levels[localState.level].balls)
             {
                 randomPos = new Vector2(
                     Random.Range(-spawnArea.x, spawnArea.x),
                     Random.Range(-spawnArea.y, spawnArea.y)
                 );
                 // Spawn ball and get it's controller component
-                ballGo = ObjectPooler.Instance.SpawnFromPool(ballData.ballPrefab);
+                ballGo = objectPooler.SpawnFromPool(ballData.ballPrefab.name);
                 ballGo.transform.position = randomPos;
                 ball = ballGo.GetComponent<Ball.Ball>();
                 // Initialize controller

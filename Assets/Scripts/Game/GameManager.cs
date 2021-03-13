@@ -12,11 +12,11 @@ using Utils;
 
 namespace Game
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : GlobalAccessMonoBehaviour
     {
         [SerializeField] private Image backgroundImage;
         private UIController uiController;
-        private InitManager initManager;
+        private LevelInitializer _levelInitializer;
         private GameData gameData;
         private GlobalState globalState;
         private LocalState localState;
@@ -25,6 +25,7 @@ namespace Game
 
         private void Awake()
         {
+            InitializeReferences();
             if (SystemInfo.deviceType == DeviceType.Handheld)
             {
                 Application.targetFrameRate = 60;
@@ -36,15 +37,15 @@ namespace Game
             globalState = GlobalState.Instance;
             localState = LocalState.Instance;
             gameData = globalState.gameData;
-            uiController = localState.uiController;
+            uiController = localState.UiController;
             uiController.Transition(false, 0.5f);
-            Init();
+            StartGame();
         }
 
-        private void Init()
+        private void StartGame()
         {
-            initManager = new InitManager(backgroundImage);
-            initManager.InitializePlayers();
+            _levelInitializer = new LevelInitializer(backgroundImage);
+            _levelInitializer.InitializePlayers();
             LoadNextLevel();
         }
 
@@ -96,14 +97,14 @@ namespace Game
         private void NextLevel()
         {
             StartCoroutine(CountDown(gameData.levelLoadDelay, InitializeLevel));
-            initManager.InitializeLevelGraphic();
+            _levelInitializer.InitializeLevelGraphic();
         }
 
         private void InitializeLevel()
         {
             uiController.ToggleCentralMessage(false);
-            initManager.InitializePowerUps();
-            initManager.InitializeBalls();
+            _levelInitializer.InitializePowerUps();
+            _levelInitializer.InitializeBalls();
         }
         
         private string SelectPlayerWhoWon()
@@ -111,10 +112,13 @@ namespace Game
             // Determine which player has the higher score
             highestScore = 0;
             selectedPlayer = String.Empty;
-            foreach (var player in localState.playerControllers.Where(player => player.Score > highestScore))
+            foreach (var player in localState.playerControllers)
             {
-                highestScore = player.Score;
-                selectedPlayer = player.PlayerName;
+                if (player.Score > highestScore)
+                {
+                    highestScore = player.Score;
+                    selectedPlayer = player.PlayerName;
+                }
             }
             
             return selectedPlayer;

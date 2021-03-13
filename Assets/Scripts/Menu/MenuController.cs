@@ -1,4 +1,5 @@
-﻿using Audio;
+﻿using System;
+using Audio;
 using Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,10 +7,15 @@ using Utils;
 
 namespace Menu
 {
-    public class MenuController : MonoBehaviour
+    public class MenuController : GlobalAccessMonoBehaviour
     {
         [SerializeField] private int gameScene;
         [SerializeField] private GameObject desktopUI, mobileUI;
+
+        private void Awake()
+        {
+            InitializeReferences();
+        }
 
         private void Start()
         {
@@ -23,30 +29,30 @@ namespace Menu
                 mobileUI.SetActive(false);
                 desktopUI.SetActive(true);
             }
-            LocalState.Instance.level = 0;
-            if (GlobalState.Instance.gameStarted)
+            localState.level = 0;
+            if (globalState.gameStarted)
             {
-                LocalState.Instance.uiController.Transition(false, 0.5f);
+                localState.UiController.Transition(false, 0.5f);
             }
-            GlobalState.Instance.gameStarted = true;
-            AudioController.Instance.PlayAudio(Constants.BGM);
+            globalState.gameStarted = true;
+            audioController.PlayAudio(Constants.BGM);
         }
 
         private void LoadGame()
         {
-            LocalState.Instance.uiController.Transition(true, 0.5f, () => SceneManager.LoadScene(gameScene));
+            localState.UiController.Transition(true, 0.5f, () => SceneManager.LoadScene(gameScene));
         }
 
         public void ChangePlayers(int players)
         {
-            AudioController.Instance.PlayAudio(Constants.BUTTON_SOUND);
-            GlobalState.Instance.players = players;
+            audioController.PlayAudio(Constants.BUTTON_SOUND);
+            globalState.players = players;
             LoadGame();
         }
 
         public void QuitGame()
         {
-            AudioController.Instance.PlayAudio(Constants.BUTTON_SOUND);
+            audioController.PlayAudio(Constants.BUTTON_SOUND);
             Application.Quit();
         }
         

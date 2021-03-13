@@ -20,7 +20,7 @@ namespace Game
             }
             else
             {
-                Destroy(this);
+                Destroy(gameObject);
             }
 
             players = 1;

@@ -5,7 +5,7 @@ using Utils;
 
 namespace PowerUp
 {
-    public class PowerUpsSpawner
+    public class PowerUpsSpawner : GlobalAccess
     {
         private static List<PowerUpData> _powerUps;
         private PowerUpData powerUpData;
@@ -25,7 +25,7 @@ namespace PowerUp
             // Check if it should spawn and spawn it
             if (Random.Range(0f, 1f) < powerUpData.probability)
             {
-                powerUpGO = ObjectPooler.Instance.SpawnFromPool(powerUpData.prefab);
+                powerUpGO = objectPooler.SpawnFromPool(powerUpData.prefab.name);
                 powerUpGO.transform.position = position;
                 powerUp = powerUpGO.GetComponent<PowerUp>();
                 powerUp.Init(powerUpData);

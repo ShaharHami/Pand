@@ -43,7 +43,7 @@ namespace Audio
             }
             else
             {
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
 

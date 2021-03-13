@@ -10,7 +10,7 @@ using Utils;
 
 namespace Player
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : GlobalAccessMonoBehaviour
     {
         [SerializeField] private SpriteRenderer renderer;
         [SerializeField] private Canvas playerCanvas;
@@ -35,11 +35,16 @@ namespace Player
         public bool PlayerDead { get; private set; }
         public int Score => playerScore.Score;
 
+        private void Awake()
+        {
+            InitializeReferences();
+        }
+
         // Initialize player components
-        public void Init(PlayerData playerData)
+        public void Init(PlayerData playerData, Camera cam)
         {
             // Player uses a world space canvas
-            playerCanvas.worldCamera = Camera.main;
+            playerCanvas.worldCamera = cam;
             playerRb = GetComponent<Rigidbody2D>();
             PlayerName = playerData.playerName;
             playerInvincibilityDuration = playerData.playerInvincibilityDuration;
@@ -57,7 +62,7 @@ namespace Player
             playerScore = new PlayerScore();
             playerUi = new PlayerUI(livesText, scoreText, permaShotIndicator, doubleShotIndicator);
             playerWeapon = new PlayerWeapon(playerData.projectilePrefab, playerData.weaponColor,
-                playerData.maxProjectilesAllowed, playerData.projectileSpeed, playerData.delay, firingPoint, this);
+                playerData.maxProjectilesAllowed, playerData.projectileSpeed, playerData.delay, firingPoint, cam, this);
             playerMotion = new PlayerMotion(playerData.playerSpeed, playerData.moveThreshold, playerData.maxVelocity,
                 playerRb);
             _playerPowerUps = gameObject.AddComponent<PlayerPowerUps>();
@@ -80,7 +85,7 @@ namespace Player
         private void FixedUpdate()
         {
             // Check if the player is dead or the game ended
-            if (PlayerDead || LocalState.Instance.gameOver) return;
+            if (PlayerDead || localState.gameOver) return;
             // Move the player
             playerMotion.MovePlayerHorizontally(playerInput.GetAxis());
             // Make sure the player faces the right direction
@@ -93,7 +98,7 @@ namespace Player
         private void Update()
         {
             // Check if the player is dead or the game ended
-            if (PlayerDead || LocalState.Instance.gameOver) return;
+            if (PlayerDead || localState.gameOver) return;
             // Implement a cooldown to avoid spamming the fire button
             if (!coolDown && playerInput.GetButton())
             {
@@ -117,17 +122,17 @@ namespace Player
                 {
                     playerHealth.LoseLife();
                     playerUi.SetLives(playerHealth.Lives);
+                    audioController.PlayAudio(Constants.HIT);
                     if (playerHealth.Lives <= 0)
                     {
                         HandlePlayerDeath();
                     }
                     else
                     {
-                        // IFrames make sure you can't get hit immediately after we got hit 
+                        // IFrames make sure you can't get hit immediately after you got hit 
                         StartCoroutine(InvincibilityFrames());
                     }
                 }
-                AudioController.Instance.PlayAudio(Constants.HIT);
             }
             else if (other.gameObject.CompareTag(Constants.POWERUP_TAG))
             {
@@ -135,7 +140,7 @@ namespace Player
                 powerUp = other.GetComponent<PowerUp.PowerUp>();
                 _playerPowerUps.DoPowerUp(powerUp.PowerUpData.type, powerUp.PowerUpData.duration);
                 other.gameObject.SetActive(false);
-                AudioController.Instance.PlayAudio(Constants.POWER_UP_SOUND);
+                audioController.PlayAudio(Constants.POWER_UP_SOUND);
             }
         }
 
@@ -145,7 +150,7 @@ namespace Player
             playerUi.SetPlayerDead();
             // Raise an event saying the player died
             OnPlayerDead?.Invoke(this);
-            AudioController.Instance.PlayAudio(Constants.DEATH);
+            audioController.PlayAudio(Constants.DEATH);
             Invoke(nameof(HidePlayer), playerInvincibilityDuration); 
         }
 

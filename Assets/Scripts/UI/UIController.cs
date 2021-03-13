@@ -6,16 +6,20 @@ using Utils;
 
 namespace UI
 {
-    public class UIController : MonoBehaviour
+    public class UIController : GlobalAccessMonoBehaviour
     {
         [SerializeField] private GameObject mobileControls;
         [SerializeField] private Transition transition;
         [SerializeField] private Modal modal;
         [SerializeField] private TextMeshProUGUI centralMessageText;
 
+        private void Awake()
+        {
+            InitializeReferences();
+        }
+
         private void Start()
         {
-            LocalState.Instance.uiController = this;
             if (mobileControls != null)
             {
                 mobileControls.SetActive(SystemInfo.deviceType == DeviceType.Handheld);

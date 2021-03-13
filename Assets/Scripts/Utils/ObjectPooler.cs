@@ -9,7 +9,7 @@ namespace Utils
     {
         public static ObjectPooler Instance;
         [SerializeField] private List<Pool> pools;
-        public Dictionary<GameObject, Queue<GameObject>> poolsDictionary;
+        public Dictionary<string, Queue<GameObject>> poolsDictionary;
         private void Awake()
         {
             if (Instance == null)
@@ -19,13 +19,13 @@ namespace Utils
             }
             else
             {
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
 
         private void Start()
         {
-            poolsDictionary = new Dictionary<GameObject, Queue<GameObject>>();
+            poolsDictionary = new Dictionary<string, Queue<GameObject>>();
             foreach (var pool in pools)
             {
                 var objectQueue = new Queue<GameObject>();
@@ -35,11 +35,11 @@ namespace Utils
                     obj.SetActive(false);
                     objectQueue.Enqueue(obj);
                 }
-                poolsDictionary.Add(pool.prefab, objectQueue);
+                poolsDictionary.Add(pool.prefab.name, objectQueue);
             }
         }
 
-        public GameObject SpawnFromPool(GameObject obj)
+        public GameObject SpawnFromPool(string obj)
         {
             GameObject spawnedFromPool = poolsDictionary[obj].Dequeue();
             spawnedFromPool.SetActive(true);

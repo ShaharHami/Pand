@@ -5,7 +5,7 @@ using Utils;
 
 namespace Player
 {
-    public class PlayerWeapon
+    public class PlayerWeapon : GlobalAccess
     {
         private readonly GameObject _projectilePrefab;
         private readonly float _floorY;
@@ -23,10 +23,10 @@ namespace Player
         private Projectile.Projectile projectileController;
         private Vector2 pos;
 
-        public PlayerWeapon(GameObject projectile, Color projectileColor, int maxProjectiles, float projectileSpeed, float delay, Transform firingPoint,
+        public PlayerWeapon(GameObject projectile, Color projectileColor, int maxProjectiles, float projectileSpeed, float delay, Transform firingPoint, Camera cam,
             PlayerController playerController)
         {
-            _floorY = -Utils.Utils.ScreenBounds(Camera.main).y;
+            _floorY = -Utils.Utils.ScreenBounds(cam).y;
             _projectilePrefab = projectile;
             _projectileColor = projectileColor;
             _projectileSpeed = projectileSpeed;
@@ -59,11 +59,11 @@ namespace Player
                 activeProjectiles++;
                 pos.x = _firingPoint.position.x;
                 pos.y = _floorY;
-                projectile = ObjectPooler.Instance.SpawnFromPool(_projectilePrefab);
+                projectile = objectPooler.SpawnFromPool(_projectilePrefab.name);
                 projectile.transform.position = pos;
                 projectileController = projectile.GetComponent<Projectile.Projectile>();
                 projectileController.Init(_projectileColor, _projectileSpeed, projectileType, _delay, _playerController);
-                AudioController.Instance.PlayAudio(Constants.SHOT);
+                audioController.PlayAudio(Constants.SHOT);
             }
         }
 
