@@ -1,10 +1,8 @@
-﻿using System;
-using App;
+﻿using App;
 using UnityEngine;
 
 namespace Ball
 {
-    [Serializable]
     public class BallController : AppBase
     {
         public void OnBallColiision(Rigidbody2D ballRb, Collider2D other)
