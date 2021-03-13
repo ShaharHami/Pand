@@ -7,7 +7,7 @@ namespace Utils
     // Simple object pooler
     public class ObjectPooler : MonoBehaviour
     {
-        public static ObjectPooler Instance;
+        private static ObjectPooler Instance;
         [SerializeField] private List<Pool> pools;
         public Dictionary<string, Queue<GameObject>> poolsDictionary;
         private void Awake()

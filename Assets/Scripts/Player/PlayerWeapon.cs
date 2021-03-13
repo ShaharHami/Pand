@@ -5,7 +5,7 @@ using Utils;
 
 namespace Player
 {
-    public class PlayerWeapon : App.App
+    public class PlayerWeapon : App.AppBase
     {
         private readonly GameObject _projectilePrefab;
         private readonly float _floorY;

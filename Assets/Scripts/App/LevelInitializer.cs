@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace App
 {
-    public class LevelInitializer : App
+    public class LevelInitializer : AppBase
     {
         private PlayerController playerController;
         private Image _backgroundImage;
@@ -17,7 +17,7 @@ namespace App
         private Camera cam;
         private Vector2 spawnArea, randomPos;
         private GameObject ballGo;
-        private Ball.Ball ball;
+        private Ball.BallView _ballView;
         private PowerUpsSpawner powerUpsSpawner;
 
         public LevelInitializer(Image backgroundImage)
@@ -64,7 +64,7 @@ namespace App
         
         public void InitializeBalls()
         {
-            Ball.Ball.ballsOnScreen = 0;
+            Ball.BallView.ballsOnScreen = 0;
             // Get a random spawn point withing the screen bounds
             // Use padding to steer clear of the edges
             spawnArea = Utils.Utils.ScreenBounds(cam) - screenPadding;
@@ -77,10 +77,10 @@ namespace App
                 // Spawn ball and get it's controller component
                 ballGo = objectPooler.SpawnFromPool(ballData.ballPrefab.name);
                 ballGo.transform.position = randomPos;
-                ball = ballGo.GetComponent<Ball.Ball>();
+                _ballView = ballGo.GetComponent<Ball.BallView>();
                 // Initialize controller
                 // Data needs to be wrapped in a BallDataContainer because it will be cloned in a later stage
-                ball.Init(new BallDataContainer(ballData));
+                _ballView.Init(new BallDataContainer(ballData));
             }
         }
 

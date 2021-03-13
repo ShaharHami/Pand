@@ -12,14 +12,12 @@ using Utils;
 
 namespace App
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : AppMonoBehaviour
     {
         [SerializeField] private Image backgroundImage;
         private UIController uiController;
         private LevelInitializer _levelInitializer;
         private GameData gameData;
-        private GlobalState globalState;
-        private LocalState localState;
         private int highestScore;
         private string selectedPlayer;
 
@@ -33,10 +31,8 @@ namespace App
 
         private void Start()
         {
-            globalState = GlobalState.Instance;
-            localState = LocalState.Instance;
-            gameData = globalState.gameData;
-            uiController = localState.UiController;
+            gameData = App.globalState.gameData;
+            uiController = App.localState.UiController;
             uiController.Transition(false, 0.5f);
             StartGame();
         }
@@ -50,25 +46,25 @@ namespace App
 
         private void OnEnable()
         {
-            Ball.Ball.OnNoMoreBalls += HandleLevelClear;
+            Ball.BallView.OnNoMoreBalls += HandleLevelClear;
             PlayerController.OnPlayerDead += HandlePlayerDead;
         }
 
         private void OnDisable()
         {
-            Ball.Ball.OnNoMoreBalls -= HandleLevelClear;
+            Ball.BallView.OnNoMoreBalls -= HandleLevelClear;
             PlayerController.OnPlayerDead -= HandlePlayerDead;
         }
 
         private void HandleLevelClear()
         {
-            if (localState.level >= gameData.levels.Count-1)
+            if (App.localState.level >= gameData.levels.Count-1)
             {
                 HandleGameOver(true, SelectPlayerWhoWon());
             }
             else
             {
-                localState.level++;
+                App.localState.level++;
                 LoadNextLevel(true);
             }
         }
@@ -78,7 +74,7 @@ namespace App
             if (transition)
             {
                 uiController.ToggleCentralMessage(true);
-                uiController.SetCentralMessage(gameData.levels[localState.level].levelName);
+                uiController.SetCentralMessage(gameData.levels[App.localState.level].levelName);
                 uiController.Transition(true, 0.5f, () =>
                 {
                     NextLevel();
@@ -88,7 +84,7 @@ namespace App
             else
             {
                 uiController.ToggleCentralMessage(true);
-                uiController.SetCentralMessage(gameData.levels[localState.level].levelName);
+                uiController.SetCentralMessage(gameData.levels[App.localState.level].levelName);
                 NextLevel();
             }
         }
@@ -111,7 +107,7 @@ namespace App
             // Determine which player has the higher score
             highestScore = 0;
             selectedPlayer = String.Empty;
-            foreach (var player in localState.playerControllers)
+            foreach (var player in App.localState.playerControllers)
             {
                 if (player.Score > highestScore)
                 {
@@ -125,7 +121,7 @@ namespace App
         
         private void HandlePlayerDead(PlayerController player)
         {
-            if (localState.playerControllers.Count(playerController => !playerController.PlayerDead) <= 0)
+            if (App.localState.playerControllers.Count(playerController => !playerController.PlayerDead) <= 0)
             {
                 HandleGameOver(false);
             }
@@ -133,7 +129,7 @@ namespace App
 
         private void HandleGameOver(bool win, string playerWhoWon = "")
         {
-            localState.gameOver = true;
+            App.localState.gameOver = true;
             if (win)
             {
                 uiController.SetConclusionText(playerWhoWon);
@@ -157,8 +153,8 @@ namespace App
 
         public void ReturnToMenu()
         {
-            AudioController.Instance.PlayAudio(Constants.BUTTON_SOUND);
-            ObjectPooler.Instance.ResetObjects();
+            App.audioController.PlayAudio(Constants.BUTTON_SOUND);
+            App.objectPooler.ResetObjects();
             uiController.Transition(true, 0.5f, () => SceneManager.LoadScene(Constants.MENU_SCENE_NAME));
         }
     }

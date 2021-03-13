@@ -4,8 +4,8 @@ namespace App
 {
     public class AppMonoBehaviour : MonoBehaviour
     {
-        private App _app;
+        private AppBase _app;
 
-        protected App App => _app ?? (_app = new App());
+        protected AppBase App => _app ?? (_app = new AppBase());
     }
 }

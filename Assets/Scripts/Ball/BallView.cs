@@ -1,13 +1,12 @@
 ﻿using System;
 using App;
-using Audio;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
 
 namespace Ball
 {
-    public class Ball : AppMonoBehaviour
+    public class BallView : AppMonoBehaviour
     {
         // Keep a static counter to know when there are no more balls on screen e.g. level finished
         public static int ballsOnScreen;
@@ -21,7 +20,7 @@ namespace Ball
         private float turn;
         private Vector2 torqueRange;
         private GameObject newBall;
-        private Ball newBallComponent;
+        private BallView _newBallViewComponent;
         private Vector2 dir;
 
         private void Awake()
@@ -62,6 +61,7 @@ namespace Ball
         // Handle ball collisions
         private void OnTriggerEnter2D(Collider2D other)
         {
+            // App.controllers.ballController.OnBallColiision(ballRb, other);
             // Cache ball velocity
             Vector2 vel = ballRb.velocity;
             // Compare tag to know what we hit
@@ -115,9 +115,9 @@ namespace Ball
                     // Position new ball
                     newBall.transform.position = transform.position;
                     // Get new ball component
-                    newBallComponent = newBall.GetComponent<Ball>();
+                    _newBallViewComponent = newBall.GetComponent<BallView>();
                     // Initialize new ball component with the cloned and modified data
-                    newBallComponent.Init(dataContainerClone);
+                    _newBallViewComponent.Init(dataContainerClone);
                 }
             }
             // Remove the ball

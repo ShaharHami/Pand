@@ -6,7 +6,7 @@ using Utils;
 
 namespace Player
 {
-    public class PlayerUI : App.App
+    public class PlayerUI : App.AppBase
     {
         private readonly TextAndUIData _data;
         private readonly TextMeshProUGUI _livesText;

@@ -22,7 +22,7 @@ namespace Audio
     }
     public class AudioController : MonoBehaviour
     {
-        public static AudioController Instance;
+        private static AudioController Instance;
         [SerializeField] private List<AudioItem> audioItems;
         [SerializeField] private AudioSource 
             uiAudioSource,

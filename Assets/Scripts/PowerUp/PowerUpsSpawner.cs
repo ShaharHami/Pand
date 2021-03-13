@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PowerUp
 {
-    public class PowerUpsSpawner : App.App
+    public class PowerUpsSpawner : App.AppBase
     {
         private static List<PowerUpData> _powerUps;
         private PowerUpData powerUpData;
@@ -14,7 +14,7 @@ namespace PowerUp
         public PowerUpsSpawner(List<PowerUpData> powerUps)
         {
             _powerUps = powerUps;
-            Ball.Ball.HitBallEvent += SpawnPowerUp;
+            Ball.BallView.HitBallEvent += SpawnPowerUp;
         }
 
         private void SpawnPowerUp(Vector2 position)

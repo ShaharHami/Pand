@@ -8,7 +8,7 @@ namespace App
     // Easy access to non persistent, current scene data
     public class LocalState : MonoBehaviour
     {
-        public static LocalState Instance;
+        private static LocalState Instance;
         [HideInInspector] public List<PlayerController> playerControllers = new List<PlayerController>();
         private UIController uiController;
         public UIController UiController
